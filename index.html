@@ -96,7 +96,7 @@
                 <img id="logo" src="Logo.jpg" alt="KCI Logo" class="w-full h-full object-cover z-10 bg-white">
             </div>
             <h1 class="text-4xl md:text-5xl font-baloo font-bold text-navy mb-2">KAKA'S COACHING INSTITUTE</h1>
-            <h2 class="text-2xl text-gold font-bold bg-navy px-6 py-2 rounded-full inline-block shadow-md">Table of 2 Worksheet (KG Level)</h2>
+            <h2 id="main-subtitle" class="text-2xl text-gold font-bold bg-navy px-6 py-2 rounded-full inline-block shadow-md">Welcome!</h2>
         </header>
 
         <!-- SCREEN 1: Student Info -->
@@ -130,8 +130,29 @@
             </div>
         </main>
 
-        <!-- SCREEN 2: The Worksheet -->
-        <main id="screen-2" class="screen">
+        <!-- SCREEN 2: Worksheet Selection -->
+        <main id="screen-selection" class="screen max-w-4xl mx-auto">
+            <h3 id="selection-greeting" class="text-3xl font-baloo font-bold text-center mb-8">Hi! Which worksheet would you like to try today?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="ws-card bg-white rounded-3xl p-8 shadow-xl border-4 border-lightBlue hover:border-gold transition-colors cursor-pointer text-center relative overflow-hidden" data-worksheet="table2">
+                    <div class="text-6xl mb-4">🧮</div>
+                    <h4 class="text-2xl font-baloo font-bold text-navy mb-2">Maths Marvels — Table of 2</h4>
+                    <p class="text-gray-500 font-medium mb-6">Multiplication practice for KG learners</p>
+                    <button class="btn btn-gold w-full text-xl py-3">Start →</button>
+                </div>
+                <!-- Card 2 -->
+                <div class="ws-card bg-white rounded-3xl p-8 shadow-xl border-4 border-lightBlue hover:border-gold transition-colors cursor-pointer text-center relative overflow-hidden" data-worksheet="class1">
+                    <div class="text-6xl mb-4">📖</div>
+                    <h4 class="text-2xl font-baloo font-bold text-navy mb-2">Little Explorers — Class I English & EVS Worksheet</h4>
+                    <p class="text-gray-500 font-medium mb-6">Living things, naming words, sounds, grammar & more!</p>
+                    <button class="btn btn-gold w-full text-xl py-3">Start →</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- SCREEN 3: Table of 2 Worksheet -->
+        <main id="screen-worksheet-table2" class="screen worksheet-container">
             <!-- Section 1 -->
             <div class="section-card gs-reveal">
                 <div class="flex items-center gap-4 mb-6 border-b-2 border-blue-200 pb-4">
@@ -361,16 +382,28 @@
                 </div>
             </div>
 
-            <!-- Submit -->
+            <!-- Submit Table of 2 -->
             <div class="text-center mt-12 mb-8 gs-reveal">
-                <button id="btn-verify" class="btn btn-gold text-2xl py-4 px-12 w-full sm:w-auto shadow-xl border-4 border-white">
+                <button class="btn-verify btn btn-gold text-2xl py-4 px-12 w-full sm:w-auto shadow-xl border-4 border-white">
                     ✅ Verify My Answers
                 </button>
             </div>
         </main>
 
-        <!-- SCREEN 3: Results -->
-        <main id="screen-3" class="screen">
+        <!-- SCREEN 4: Class 1 English & EVS Worksheet -->
+        <main id="screen-worksheet-class1" class="screen worksheet-container">
+            <!-- Content will be added here -->
+            
+            <!-- Submit Class 1 -->
+            <div class="text-center mt-12 mb-8 gs-reveal">
+                <button class="btn-verify btn btn-gold text-2xl py-4 px-12 w-full sm:w-auto shadow-xl border-4 border-white">
+                    ✅ Verify My Answers
+                </button>
+            </div>
+        </main>
+
+        <!-- SCREEN 5: Results -->
+        <main id="screen-results" class="screen">
             <div id="results-card" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-lightBlue relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-4 bg-navy"></div>
                 
@@ -378,7 +411,7 @@
                 <div class="text-center mb-8 pb-8 border-b-2 border-gray-100 pt-4">
                     <img src="Logo.jpg" class="w-20 h-20 mx-auto mb-4 rounded-xl object-contain shadow-sm bg-white" alt="KCI Logo">
                     <h2 class="text-3xl font-baloo font-bold text-navy mb-2">KAKA'S COACHING INSTITUTE</h2>
-                    <h3 class="text-xl text-gray-500 font-bold">Table of 2 — Results Summary</h3>
+                    <h3 id="res-subtitle" class="text-xl text-gray-500 font-bold">Results Summary</h3>
                 </div>
                 
                 <!-- Student Info -->
@@ -418,10 +451,11 @@
             </div>
             
             <!-- Actions -->
-            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center no-print">
-                <button id="btn-pdf" class="btn bg-red-500 hover:bg-red-600 border-red-600">📥 Download PDF</button>
-                <button id="btn-img" class="btn bg-green-500 hover:bg-green-600 border-green-600">🖼️ Download Image</button>
-                <button id="btn-retry" class="btn btn-gold">🔄 Try Again</button>
+            <div class="mt-8 flex flex-col sm:flex-row flex-wrap gap-4 justify-center no-print">
+                <button id="btn-pdf" class="btn bg-red-500 hover:bg-red-600 border-red-600 text-lg">📥 Download PDF</button>
+                <button id="btn-img" class="btn bg-green-500 hover:bg-green-600 border-green-600 text-lg">🖼️ Download Image</button>
+                <button id="btn-retry" class="btn btn-gold text-lg">🔄 Try Again</button>
+                <button id="btn-choose-another" class="btn bg-blue-500 hover:bg-blue-600 text-lg">📚 Choose Another</button>
             </div>
         </main>
         
@@ -429,16 +463,244 @@
 
     <script>
         // --- GRADING LOGIC EXPLANATION ---
-        // The state object holds the current user's session data.
-        // Total points = 39 (calculated exactly from the requirements:
-        // S2=10, S3=10, S4=5, S5=5, S6=1 (exact match), S7=8 (5 normal + 3 bonus))
-        
         const state = {
             student: { name: '', id: '', date: '' },
+            currentWorksheetId: null,
             results: [], 
             totalCorrect: 0,
-            totalPossible: 39 
+            totalPossible: 0 
         };
+
+        const worksheetsConfig = {
+            table2: {
+                title: "Table of 2",
+                exportPrefix: "KCI_Table2_Result",
+                totalPossible: 39,
+                render: null // Already in HTML
+            },
+            class1: {
+                title: "Class I English & EVS Worksheet",
+                exportPrefix: "KCI_ClassI_Result",
+                totalPossible: 74,
+                render: renderClass1Worksheet
+            }
+        };
+
+        function renderClass1Worksheet() {
+            const container = document.getElementById('screen-worksheet-class1');
+            if (container.children.length > 2) return; // Already rendered
+
+            let html = '';
+            let sectionCount = 1;
+
+            // Helper to generate a section header
+            const secHeader = (title, subtitle) => `
+                <div class="flex items-center gap-4 mb-2">
+                    <div class="badge">${sectionCount++}</div>
+                    <h3 class="text-2xl font-baloo font-bold">${title}</h3>
+                </div>
+                ${subtitle ? `<p class="text-lg mb-6 font-medium text-navy bg-white/50 inline-block px-4 py-2 rounded-lg">${subtitle}</p>` : ''}
+            `;
+
+            // Section 1: Living/Non-Living (Radio)
+            const s1Items = [
+                {q: "🐶 Dog", a: "Living"}, {q: "🌳 Tree", a: "Living"}, {q: "🪑 Chair", a: "Non-Living"}, {q: "🐟 Fish", a: "Living"}, {q: "🚗 Car", a: "Non-Living"},
+                {q: "🌸 Flower", a: "Living"}, {q: "📚 Book", a: "Non-Living"}, {q: "🐦 Bird", a: "Living"}, {q: "⛰️ Mountain", a: "Non-Living"}, {q: "🦋 Butterfly", a: "Living"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Living vs Non-Living Things", "Tap the correct button for each.")}<div class="space-y-4">`;
+            s1Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question c1-s1" data-q="s1-${i}" data-ans="${item.a}">
+                        <div class="text-2xl font-bold font-baloo">${i+1}. <span class="ml-2">${item.q}</span></div>
+                        <div class="flex gap-4">
+                            <div class="pill s4-opt">🌱 Living</div>
+                            <div class="pill s4-opt">🪨 Non-Living</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 2A: Naming Words Graded
+            const s2aItems = [
+                {q: "Run | Happy | Table | Quickly", a: "Table", opts: ["Run", "Happy", "Table", "Quickly"]},
+                {q: "Jump | School | Loudly | Pretty", a: "School", opts: ["Jump", "School", "Loudly", "Pretty"]},
+                {q: "Sing | Elephant | Slowly | Tall", a: "Elephant", opts: ["Sing", "Elephant", "Slowly", "Tall"]},
+                {q: "Fly | Beautiful | Doctor | Fast", a: "Doctor", opts: ["Fly", "Beautiful", "Doctor", "Fast"]},
+                {q: "Eat | Garden | Soft | Quickly", a: "Garden", opts: ["Eat", "Garden", "Soft", "Quickly"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Naming Words (Nouns) - Part A", "Which word is a Naming Word (Noun)?")}<div class="space-y-4">`;
+            s2aItems.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col xl:flex-row xl:items-center justify-between gap-4 s4-question c1-s2a" data-q="s2a-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${i+1}.</div>
+                        <div class="flex flex-wrap gap-3">
+                            ${item.opts.map(opt => `<div class="pill s4-opt">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 2B: Naming Words Creative
+            html += `<div class="section-card gs-reveal"><div class="flex items-center gap-4 mb-2"><div class="badge">*</div><h3 class="text-2xl font-baloo font-bold">Naming Words - Part B</h3></div><p class="text-lg mb-6 font-medium text-navy bg-white/50 inline-block px-4 py-2 rounded-lg">Just for fun — not scored! Can you think of your own naming word for each?</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4">`;
+            ["An Animal", "A Fruit", "A Vehicle", "A Place"].forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex items-center justify-between gap-4">
+                        <div class="text-xl font-bold font-baloo">${item}:</div>
+                        <input type="text" class="input-box w-full max-w-[200px] text-lg px-3" style="width:100%;">
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 3: Beginning Sounds
+            const s3Items = [
+                {l:"A", q:"🍎 Apple", a:"A", opts:["A","E","O"]}, {l:"B", q:"⚽ Ball", a:"B", opts:["B","D","P"]}, {l:"C", q:"🐱 Cat", a:"C", opts:["C","K","S"]},
+                {l:"D", q:"🐶 Dog", a:"D", opts:["D","B","G"]}, {l:"E", q:"🥚 Egg", a:"E", opts:["E","A","I"]}, {l:"F", q:"🐟 Fish", a:"F", opts:["F","V","P"]},
+                {l:"G", q:"🐐 Goat", a:"G", opts:["G","J","C"]}, {l:"H", q:"🎩 Hat", a:"H", opts:["H","N","M"]}, {l:"I", q:"🍦 Ice-cream", a:"I", opts:["I","E","U"]},
+                {l:"J", q:"🏺 Jug", a:"J", opts:["J","G","Y"]}, {l:"K", q:"🪁 Kite", a:"K", opts:["K","C","G"]}, {l:"L", q:"🦁 Lion", a:"L", opts:["L","N","R"]},
+                {l:"M", q:"🐒 Monkey", a:"M", opts:["M","N","W"]}, {l:"N", q:"🪹 Nest", a:"N", opts:["N","M","H"]}, {l:"O", q:"🍊 Orange", a:"O", opts:["O","A","U"]},
+                {l:"P", q:"🐧 Penguin", a:"P", opts:["P","B","D"]}, {l:"Q", q:"👸 Queen", a:"Q", opts:["Q","K","C"]}, {l:"R", q:"🐰 Rabbit", a:"R", opts:["R","L","W"]},
+                {l:"S", q:"☀️ Sun", a:"S", opts:["S","C","Z"]}, {l:"T", q:"🐯 Tiger", a:"T", opts:["T","D","F"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Beginning Sounds A to T", "Choose the correct starting letter.")}<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">`;
+            s3Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question c1-s3" data-q="s3-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${item.l} - ${item.q}</div>
+                        <div class="flex gap-2">
+                            ${item.opts.map(opt => `<div class="pill s4-opt" style="min-width:3rem; padding: 0.5rem;">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 4: Reading Comprehension
+            const s4Items = [
+                {q:"1. What is the girl's name?", a:"Sara", opts:["Sara","Ayesha","Mariam"]},
+                {q:"2. How old is she?", a:"Seven", opts:["Six","Seven","Eight"]},
+                {q:"3. Which class does she study in?", a:"Class I", opts:["Class I","Class II","Class III"]},
+                {q:"4. Which city does she live in?", a:"Karachi", opts:["Lahore","Karachi","Islamabad"]},
+                {q:"5. What is her favourite colour?", a:"Blue", opts:["Red","Blue","Green"]},
+                {q:"6. What is her dog's name?", a:"Rocky", opts:["Rocky","Tommy","Bruno"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Reading Comprehension — 'Myself'", "Read the passage and answer.")}
+                <div class="bg-lightBlue p-6 rounded-xl border-2 border-gold mb-6 font-medium text-lg leading-relaxed">
+                    "My name is Sara. I am seven years old. I study in Class I. I live in Karachi with my family. I have one brother and one sister. My favourite colour is blue. I like to read books and play with my dog, Rocky."
+                </div><div class="space-y-4">`;
+            s4Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question c1-s4" data-q="s4-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${item.q}</div>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.opts.map(opt => `<div class="pill s4-opt" style="padding: 0.5rem 1rem;">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 5: Vowels a/an
+            const s5Items = [
+                {q:"___ apple", a:"an"}, {q:"___ dog", a:"a"}, {q:"___ umbrella", a:"an"}, {q:"___ ball", a:"a"}, {q:"___ elephant", a:"an"},
+                {q:"___ cat", a:"a"}, {q:"___ orange", a:"an"}, {q:"___ banana", a:"a"}, {q:"___ egg", a:"an"}, {q:"___ igloo", a:"an"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Vowels & Articles", "Choose 'a' or 'an'.")}<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">`;
+            s5Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex items-center justify-between gap-4 s4-question c1-s5" data-q="s5-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${i+1}. ${item.q}</div>
+                        <div class="flex gap-2">
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">a</div>
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">an</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 6: Singular / Plural
+            const s6Items = [
+                {q:"Cat", a:"Cats", opts:["Cats", "Cates", "Catses"]}, {q:"Box", a:"Boxes", opts:["Boxs", "Boxes", "Boxies"]},
+                {q:"Baby", a:"Babies", opts:["Babys", "Babies", "Babyes"]}, {q:"Dog", a:"Dogs", opts:["Dogs", "Doges", "Dogies"]},
+                {q:"Bus", a:"Buses", opts:["Buss", "Buses", "Busies"]}, {q:"Toy", a:"Toys", opts:["Toys", "Toyes", "Toies"]},
+                {q:"Leaf", a:"Leaves", opts:["Leafs", "Leaves", "Leafes"]}, {q:"Man", a:"Men", opts:["Mans", "Men", "Mens"]},
+                {q:"Child", a:"Children", opts:["Childs", "Children", "Childes"]}, {q:"Fox", a:"Foxes", opts:["Foxs", "Foxes", "Foxies"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Singular / Plural", "Choose the correct plural.")}<div class="space-y-4">`;
+            s6Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question c1-s6" data-q="s6-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${i+1}. ${item.q} → </div>
+                        <div class="flex gap-2">
+                            ${item.opts.map(opt => `<div class="pill s4-opt" style="padding: 0.5rem 1rem;">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 7: This / That
+            const s7Items = [
+                {q:"______ is my pencil. (it's in your hand)", a:"This"}, {q:"______ is a tall building far away.", a:"That"},
+                {q:"______ is my school bag. (right next to you)", a:"This"}, {q:"______ is a bird flying high in the sky.", a:"That"},
+                {q:"______ is my mother. (standing beside you)", a:"This"}, {q:"______ is a mountain far in the distance.", a:"That"},
+                {q:"______ is my favourite toy. (in your hands)", a:"This"}, {q:"______ is a boat on the sea, far away.", a:"That"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("This / That", "Choose 'This' or 'That'.")}<div class="space-y-4">`;
+            s7Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4 s4-question c1-s7" data-q="s7-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${i+1}. ${item.q}</div>
+                        <div class="flex gap-2 shrink-0">
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">This</div>
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">That</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 8: Final Mini Test
+            const s8Items = [
+                {q:"1. 🐘 Elephant is:", a:"Living", opts:["🌱 Living", "🪨 Non-Living"]},
+                {q:"2. Which is a Naming Word?", a:"River", opts:["Jump", "River", "Fast", "Loudly"]},
+                {q:"3. 🪟 Window begins with: (Bonus: beyond T!)", a:"W", opts:["W", "V", "U"]},
+                {q:"4. ___ orange (a/an)", a:"an", opts:["a", "an"]},
+                {q:"5. Plural of 'Woman'", a:"Women", opts:["Womans", "Women", "Womens"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Super Challenge — Mini Test", "Show what you learned!")}<div class="space-y-4">`;
+            s8Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4 s4-question c1-s8" data-q="s8-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${item.q}</div>
+                        <div class="flex flex-wrap gap-2 shrink-0">
+                            ${item.opts.map(opt => `<div class="pill s4-opt" style="padding: 0.5rem 1rem;" data-val="${opt.replace(/[^a-zA-Z-]/g, '').trim()}">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Prepend HTML before the submit button
+            const submitBtn = container.lastElementChild;
+            container.insertAdjacentHTML('afterbegin', html);
+            
+            // Setup interactivity for newly injected pills
+            setupPillsInteractivity('#screen-worksheet-class1 .s4-question');
+        }
+
+        // Helper for pill interactivity
+        function setupPillsInteractivity(selector) {
+            document.querySelectorAll(selector).forEach(q => {
+                const pills = q.querySelectorAll('.s4-opt');
+                pills.forEach(pill => {
+                    // Prevent multiple listeners if setup again
+                    if (pill.dataset.bound) return;
+                    pill.dataset.bound = "true";
+                    
+                    pill.addEventListener('click', () => {
+                        pills.forEach(p => p.classList.remove('selected'));
+                        pill.classList.add('selected');
+                        q.classList.remove('pill-error');
+                        gsap.fromTo(pill, {scale: 0.9}, {scale: 1.05, duration: 0.3, ease: "back.out(2)"});
+                    });
+                });
+            });
+        }
 
         // Initialize Lenis for smooth scrolling
         const lenis = new Lenis({
@@ -479,19 +741,53 @@
             state.student.id = document.getElementById('studentId').value.trim();
             state.student.date = document.getElementById('studentDate').value;
             
-            // GSAP Transition from S1 -> S2
+            // GSAP Transition from S1 -> Selection
             gsap.to('#screen-1', {
                 opacity: 0, y: -20, duration: 0.4, onComplete: () => {
                     document.getElementById('screen-1').classList.remove('active');
-                    document.getElementById('screen-2').classList.add('active');
+                    document.getElementById('screen-selection').classList.add('active');
                     window.scrollTo(0, 0);
                     
-                    // Reveal Worksheet Sections Staggered
-                    gsap.to('#screen-2', { opacity: 1, duration: 0.1 });
-                    gsap.to('.gs-reveal', {
-                        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.2)"
-                    });
+                    document.getElementById('selection-greeting').innerText = `Hi ${state.student.name.split(' ')[0]}! Which worksheet would you like to try today?`;
+                    
+                    gsap.to('#screen-selection', { opacity: 1, duration: 0.1 });
+                    gsap.fromTo('.ws-card', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.2, ease: "back.out(1.2)" });
                 }
+            });
+        });
+
+        // ----------------------------------------------------
+        // SCREEN 2: Worksheet Selection Interactivity
+        // ----------------------------------------------------
+        document.querySelectorAll('.ws-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const wsId = card.dataset.worksheet;
+                state.currentWorksheetId = wsId;
+                state.totalPossible = worksheetsConfig[wsId].totalPossible;
+                
+                // Update Main Subtitle
+                document.getElementById('main-subtitle').innerText = worksheetsConfig[wsId].title;
+                
+                // Render if dynamic
+                if (worksheetsConfig[wsId].render) {
+                    worksheetsConfig[wsId].render();
+                }
+                
+                const targetScreen = wsId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                
+                // GSAP Transition from Selection -> Worksheet
+                gsap.to('#screen-selection', {
+                    opacity: 0, y: -20, duration: 0.4, onComplete: () => {
+                        document.getElementById('screen-selection').classList.remove('active');
+                        document.querySelector(targetScreen).classList.add('active');
+                        window.scrollTo(0, 0);
+                        
+                        gsap.to(targetScreen, { opacity: 1, duration: 0.1 });
+                        gsap.to(`${targetScreen} .gs-reveal`, {
+                            opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.2)"
+                        });
+                    }
+                });
             });
         });
 
@@ -545,81 +841,120 @@
         // ----------------------------------------------------
         // VALIDATION & SUBMISSION
         // ----------------------------------------------------
-        const btnVerify = document.getElementById('btn-verify');
-        
-        btnVerify.addEventListener('click', () => {
-            // Pulse animation for button
-            gsap.to(btnVerify, {scale: 0.95, duration: 0.1, yoyo: true, repeat: 1});
-            
-            let isValid = true;
-            let firstInvalid = null;
-            
-            // Validate Text Inputs (S2, S3, S5, S7)
-            const textInputs = document.querySelectorAll('#screen-2 input[type="text"]');
-            textInputs.forEach(input => {
-                if(input.value.trim() === '') {
-                    isValid = false;
-                    input.classList.add('input-error');
-                    if(!firstInvalid) firstInvalid = input;
+        document.querySelectorAll('.btn-verify').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Pulse animation for button
+                gsap.to(btn, {scale: 0.95, duration: 0.1, yoyo: true, repeat: 1});
+                
+                let isValid = true;
+                let firstInvalid = null;
+                
+                const activeContainer = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                
+                // Validate Text Inputs (ignore those that are not graded in Class1 Part B)
+                const textInputs = document.querySelectorAll(`${activeContainer} input[type="text"]`);
+                textInputs.forEach(input => {
+                    // Skip validation for Part B of Class 1 (fun section without dataset ans)
+                    if (!input.dataset.ans && state.currentWorksheetId === 'class1') return;
+                    
+                    if(input.value.trim() === '') {
+                        isValid = false;
+                        input.classList.add('input-error');
+                        if(!firstInvalid) firstInvalid = input;
+                    }
+                });
+                
+                // Validate Pills (Must have one selected)
+                const s4Qs = document.querySelectorAll(`${activeContainer} .s4-question`);
+                s4Qs.forEach(q => {
+                    const selected = q.querySelector('.selected');
+                    if(!selected) {
+                        isValid = false;
+                        q.classList.add('pill-error');
+                        if(!firstInvalid) firstInvalid = q;
+                    }
+                });
+                
+                // Validate Table 2 Grid if applicable
+                if (state.currentWorksheetId === 'table2') {
+                    const s6Grid = document.getElementById('s6-grid');
+                    const s6Selected = document.querySelectorAll('#s6-grid .selected');
+                    if(s6Selected.length === 0) {
+                        isValid = false;
+                        s6Grid.classList.add('grid-error');
+                        if(!firstInvalid) firstInvalid = s6Grid;
+                    }
                 }
-            });
-            
-            // Validate S4 Pills (Must have one selected)
-            const s4Qs = document.querySelectorAll('.s4-question');
-            s4Qs.forEach(q => {
-                const selected = q.querySelector('.selected');
-                if(!selected) {
-                    isValid = false;
-                    q.classList.add('pill-error');
-                    if(!firstInvalid) firstInvalid = q;
+                
+                if(!isValid) {
+                    // Smooth scroll to the first missing answer
+                    lenis.scrollTo(firstInvalid, { offset: -100, duration: 1 });
+                    // Shake it visually to draw attention
+                    gsap.fromTo(firstInvalid, {x: -10}, {x: 10, duration: 0.1, yoyo: true, repeat: 5, onComplete: () => gsap.set(firstInvalid, {x: 0})});
+                    return;
                 }
+                
+                // All valid, Grade the worksheet and transition
+                if (state.currentWorksheetId === 'table2') gradeWorksheetTable2();
+                else gradeWorksheetClass1();
+                
+                showResults();
             });
-            
-            // Validate S6 Grid (Must select at least something, technically optional but good to ensure they interacted)
-            const s6Selected = document.querySelectorAll('#s6-grid .selected');
-            if(s6Selected.length === 0) {
-                isValid = false;
-                s6Grid.classList.add('grid-error');
-                if(!firstInvalid) firstInvalid = s6Grid;
-            }
-            
-            if(!isValid) {
-                // Smooth scroll to the first missing answer
-                lenis.scrollTo(firstInvalid, { offset: -100, duration: 1 });
-                // Shake it visually to draw attention
-                gsap.fromTo(firstInvalid, {x: -10}, {x: 10, duration: 0.1, yoyo: true, repeat: 5, onComplete: () => gsap.set(firstInvalid, {x: 0})});
-                return;
-            }
-            
-            // All valid, Grade the worksheet and transition
-            gradeWorksheet();
-            showResults();
         });
 
         // ----------------------------------------------------
         // GRADING LOGIC
         // ----------------------------------------------------
-        function gradeWorksheet() {
+        // Helper function to grade text input sections easily
+        const gradeInputs = (selector, sectionName, getQText) => {
+            document.querySelectorAll(selector).forEach((input, index) => {
+                const uAns = input.value.trim();
+                const cAns = input.dataset.ans;
+                if (!cAns) return; // Skip ungraded items
+                const isCorrect = uAns.toLowerCase() === cAns.toLowerCase();
+                if(isCorrect) state.totalCorrect++;
+                
+                state.results.push({
+                    q: getQText ? getQText(input, index) : `Blank ${index+1}`,
+                    userAns: uAns,
+                    correctAns: cAns,
+                    isCorrect: isCorrect,
+                    section: sectionName
+                });
+            });
+        };
+
+        // Helper to grade pill sections
+        const gradePills = (selector, sectionName) => {
+            document.querySelectorAll(selector).forEach(q => {
+                const qTextEl = q.querySelector('.font-baloo');
+                const qText = qTextEl ? qTextEl.innerText.trim().replace(/ ?\?$/, '') + ' ?' : 'Question';
+                const cAns = q.dataset.ans;
+                const selectedPill = q.querySelector('.selected');
+                const uAns = selectedPill ? selectedPill.innerText.replace(/[^a-zA-Z -]/g, '').trim() : 'None';
+                // For exact matches checking, especially on pills with emojis:
+                let isCorrect = uAns === cAns;
+                if (selectedPill && selectedPill.dataset.val) {
+                    isCorrect = selectedPill.dataset.val === cAns;
+                } else if (uAns.includes(cAns)) {
+                    isCorrect = true; // basic fallback for emoji inclusion
+                }
+
+                if(isCorrect) state.totalCorrect++;
+                
+                state.results.push({
+                    q: qText,
+                    userAns: selectedPill ? selectedPill.innerText.trim() : 'None',
+                    correctAns: cAns,
+                    isCorrect: isCorrect,
+                    section: sectionName
+                });
+            });
+        };
+
+        function gradeWorksheetTable2() {
             state.results = [];
             state.totalCorrect = 0;
-            
-            // Helper function to grade text input sections easily
-            const gradeInputs = (selector, sectionName, getQText) => {
-                document.querySelectorAll(selector).forEach((input, index) => {
-                    const uAns = input.value.trim();
-                    const cAns = input.dataset.ans;
-                    const isCorrect = uAns === cAns;
-                    if(isCorrect) state.totalCorrect++;
-                    
-                    state.results.push({
-                        q: getQText ? getQText(input, index) : `Blank ${index+1}`,
-                        userAns: uAns,
-                        correctAns: cAns,
-                        isCorrect: isCorrect,
-                        section: sectionName
-                    });
-                });
-            };
 
             // Section 2
             gradeInputs('.q-s2', 'Section 2: Number Pattern', (el, i) => {
@@ -632,21 +967,7 @@
             });
             
             // Section 4
-            document.querySelectorAll('.s4-question').forEach(q => {
-                const qText = q.querySelector('.font-baloo').innerText.trim() + ' ?';
-                const cAns = q.dataset.ans;
-                const uAns = q.querySelector('.selected').innerText.trim();
-                const isCorrect = uAns === cAns;
-                if(isCorrect) state.totalCorrect++;
-                
-                state.results.push({
-                    q: qText,
-                    userAns: uAns,
-                    correctAns: cAns,
-                    isCorrect: isCorrect,
-                    section: 'Section 4: Circle Answer'
-                });
-            });
+            gradePills('#screen-worksheet-table2 .s4-question', 'Section 4: Circle Answer');
             
             // Section 5
             gradeInputs('.q-s5', 'Section 5: Count the Pairs', (el, i) => `Image group ${i+1}`);
@@ -676,10 +997,28 @@
             gradeInputs('.q-s7b', 'Section 7: Bonus', (el, i) => `Bonus blank ${i+1}`);
         }
 
+        function gradeWorksheetClass1() {
+            state.results = [];
+            state.totalCorrect = 0;
+            
+            gradePills('.c1-s1', 'Section 1: Living vs Non-Living');
+            gradePills('.c1-s2a', 'Section 2A: Naming Words');
+            // Section 2B is intentionally ignored
+            gradePills('.c1-s3', 'Section 3: Beginning Sounds');
+            gradePills('.c1-s4', 'Section 4: Reading Comprehension');
+            gradePills('.c1-s5', 'Section 5: Vowels & Articles');
+            gradePills('.c1-s6', 'Section 6: Singular / Plural');
+            gradePills('.c1-s7', 'Section 7: This / That');
+            gradePills('.c1-s8', 'Section 8: Mini Test');
+        }
+
         // ----------------------------------------------------
         // SCREEN 3: Results Display & Animations
         // ----------------------------------------------------
         function showResults() {
+            // Update Subtitle dynamically
+            document.getElementById('res-subtitle').innerText = `${worksheetsConfig[state.currentWorksheetId].title} — Results Summary`;
+            
             // Populate Student Data
             document.getElementById('res-name').innerText = state.student.name;
             document.getElementById('res-id').innerText = state.student.id;
@@ -733,11 +1072,13 @@
             
             document.getElementById('res-message').innerText = msg;
             
-            // Transition S2 -> S3
-            gsap.to('#screen-2', {
+            // Transition Active Worksheet -> S5 (Results)
+            const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+            
+            gsap.to(targetScreen, {
                 opacity: 0, y: -20, duration: 0.4, onComplete: () => {
-                    document.getElementById('screen-2').classList.remove('active');
-                    document.getElementById('screen-3').classList.add('active');
+                    document.querySelector(targetScreen).classList.remove('active');
+                    document.getElementById('screen-results').classList.add('active');
                     window.scrollTo(0, 0);
                     
                     // Reveal results card
@@ -827,25 +1168,60 @@
         }
 
         // ----------------------------------------------------
-        // TRY AGAIN
+        // TRY AGAIN & CHOOSE ANOTHER
         // ----------------------------------------------------
         document.getElementById('btn-retry').addEventListener('click', () => {
-            gsap.to('#screen-3', {
+            gsap.to('#screen-results', {
                 opacity: 0, duration: 0.3, onComplete: () => {
-                    document.getElementById('screen-3').classList.remove('active');
+                    document.getElementById('screen-results').classList.remove('active');
+                    
+                    const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
                     
                     // Reset all inputs & state
-                    document.querySelectorAll('#screen-2 input').forEach(inp => inp.value = '');
-                    document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+                    document.querySelectorAll(`${targetScreen} input`).forEach(inp => inp.value = '');
+                    document.querySelectorAll(`${targetScreen} .selected`).forEach(el => el.classList.remove('selected'));
+                    document.querySelectorAll(`${targetScreen} .input-error`).forEach(el => el.classList.remove('input-error'));
+                    document.querySelectorAll(`${targetScreen} .pill-error`).forEach(el => el.classList.remove('pill-error'));
+                    if (state.currentWorksheetId === 'table2') document.getElementById('s6-grid').classList.remove('grid-error');
                     
-                    document.getElementById('screen-1').classList.add('active');
-                    gsap.to('#screen-1', { opacity: 1, y: 0, duration: 0.4 });
+                    // Go to Selection (or back to S1) - specification says "Try Again (same worksheet)" so we go back to the worksheet
+                    document.querySelector(targetScreen).classList.add('active');
+                    gsap.to(targetScreen, { opacity: 1, y: 0, duration: 0.4 });
                     window.scrollTo(0, 0);
                     
                     // Reset visuals
                     document.getElementById('score-ring').style.strokeDasharray = "0, 100";
                     document.getElementById('score-num').innerText = "0";
                     document.getElementById('res-percent').innerText = "0%";
+                    document.getElementById('res-message').innerText = "";
+                }
+            });
+        });
+
+        document.getElementById('btn-choose-another').addEventListener('click', () => {
+            gsap.to('#screen-results', {
+                opacity: 0, duration: 0.3, onComplete: () => {
+                    document.getElementById('screen-results').classList.remove('active');
+                    
+                    const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                    
+                    // Reset all inputs & state
+                    document.querySelectorAll(`${targetScreen} input`).forEach(inp => inp.value = '');
+                    document.querySelectorAll(`${targetScreen} .selected`).forEach(el => el.classList.remove('selected'));
+                    document.querySelectorAll(`${targetScreen} .input-error`).forEach(el => el.classList.remove('input-error'));
+                    document.querySelectorAll(`${targetScreen} .pill-error`).forEach(el => el.classList.remove('pill-error'));
+                    if (state.currentWorksheetId === 'table2') document.getElementById('s6-grid').classList.remove('grid-error');
+                    
+                    // Go to Selection Screen
+                    document.getElementById('screen-selection').classList.add('active');
+                    gsap.to('#screen-selection', { opacity: 1, y: 0, duration: 0.4 });
+                    window.scrollTo(0, 0);
+                    
+                    // Reset visuals
+                    document.getElementById('score-ring').style.strokeDasharray = "0, 100";
+                    document.getElementById('score-num').innerText = "0";
+                    document.getElementById('res-percent').innerText = "0%";
+                    document.getElementById('res-message').innerText = "";
                 }
             });
         });
@@ -869,7 +1245,8 @@
         function getFileName(ext) {
             const safeName = state.student.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'student';
             const date = state.student.date || new Date().toISOString().split('T')[0];
-            return `KCI_Table2_Result_${safeName}_${date}.${ext}`;
+            const prefix = worksheetsConfig[state.currentWorksheetId].exportPrefix;
+            return `${prefix}_${safeName}_${date}.${ext}`;
         }
 
         // Download Image (PNG)
