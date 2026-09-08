@@ -123,6 +123,7 @@
                 </div>
                 
                 <div class="mt-8 text-center">
+                    <div id="login-error" class="hidden text-red-600 font-bold mb-4 px-4 py-3 bg-red-50 rounded-xl border-2 border-red-200"></div>
                     <button id="btn-start" class="btn btn-gold w-full flex items-center justify-center gap-2" disabled>
                         Start Worksheet <span class="text-2xl">→</span>
                     </button>
@@ -462,6 +463,33 @@
     </div>
 
     <script>
+        // STUDENT ROSTER — update this list when students are added/removed
+        const studentRoster = [
+            { id: 1019, name: "Muhammad Zayan" },
+            { id: 1020, name: "Eshal Faraz" },
+            { id: 1023, name: "Usman Ali" },
+            { id: 1024, name: "Muhammad Esa" },
+            { id: 1025, name: "Muhammad Moosa" },
+            { id: 1026, name: "Kirama" },
+            { id: 1029, name: "Muhammad Ayan" },
+            { id: 1031, name: "Abdul-wasey" },
+            { id: 1032, name: "Mohtashim Shiekh" },
+            { id: 1033, name: "Nashwan Shiekh" },
+            { id: 1036, name: "Zoya" },
+            { id: 1037, name: "Muhammad" },
+            { id: 1038, name: "Musab Attia" },
+            { id: 1039, name: "Syed Zahra" },
+            { id: 1040, name: "Syed Marium" },
+            { id: 1041, name: "Ibrahim" },
+            { id: 1044, name: "Fatima" },
+            { id: 1045, name: "Zainab" },
+            { id: 1047, name: "Rabia" },
+            { id: 1048, name: "Hooria" },
+            { id: 1049, name: "Fatima" },
+            { id: 1050, name: "Dua" },
+            { id: 1051, name: "Syed Asad-ur-Rahman" },
+        ];
+
         // --- GRADING LOGIC EXPLANATION ---
         const state = {
             student: { name: '', id: '', date: '' },
@@ -734,15 +762,59 @@
         function checkS1Validity() {
             const isValid = s1Inputs.every(input => input.value.trim() !== '');
             btnStart.disabled = !isValid;
+            
+            // Clear any active errors when user edits fields
+            const errorContainer = document.getElementById('login-error');
+            if (errorContainer && !errorContainer.classList.contains('hidden')) {
+                errorContainer.classList.add('hidden');
+                document.getElementById('studentId').classList.remove('input-error');
+            }
         }
 
         btnStart.addEventListener('click', () => {
-            state.student.name = document.getElementById('studentName').value.trim();
-            state.student.id = document.getElementById('studentId').value.trim();
-            state.student.date = document.getElementById('studentDate').value;
+            const enteredId = document.getElementById('studentId').value.trim();
+            const enteredDate = document.getElementById('studentDate').value;
             
+            const errorContainer = document.getElementById('login-error');
+            const nameInput = document.getElementById('studentName');
+            const idInput = document.getElementById('studentId');
+            const screen1Card = document.querySelector('#screen-1 .bg-white');
+
+            const showError = (msg, fieldsToHighlight) => {
+                errorContainer.innerText = msg;
+                errorContainer.classList.remove('hidden');
+                fieldsToHighlight.forEach(el => el.classList.add('input-error'));
+                gsap.fromTo(screen1Card, {x: -10}, {x: 10, duration: 0.1, yoyo: true, repeat: 5, onComplete: () => gsap.set(screen1Card, {x: 0})});
+            };
+
+            const matchedStudent = studentRoster.find(s => s.id === parseInt(enteredId));
+            
+            if (!matchedStudent) {
+                showError("This ID isn't registered. Please check with your teacher.", [idInput]);
+                return;
+            }
+            
+            // Name Correction & Flash
+            const typedName = nameInput.value.trim();
+            nameInput.value = matchedStudent.name; 
+            
+            state.student.name = matchedStudent.name; // Use on-file name
+            state.student.id = enteredId;
+            state.student.date = enteredDate;
+            
+            // If the name was corrected, show a brief flash to draw attention before transitioning
+            let delayMs = 0;
+            if (typedName.toLowerCase() !== matchedStudent.name.toLowerCase()) {
+                gsap.fromTo(nameInput, 
+                    { backgroundColor: '#dcfce3', color: '#166534', borderColor: '#22c55e' }, 
+                    { backgroundColor: '#f9fafb', color: '#1e3a5f', borderColor: '#e5e7eb', duration: 0.8 }
+                );
+                delayMs = 0.6; // delay transition so they see it
+            }
+
             // GSAP Transition from S1 -> Selection
             gsap.to('#screen-1', {
+                delay: delayMs,
                 opacity: 0, y: -20, duration: 0.4, onComplete: () => {
                     document.getElementById('screen-1').classList.remove('active');
                     document.getElementById('screen-selection').classList.add('active');
