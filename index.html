@@ -134,7 +134,7 @@
         <!-- SCREEN 2: Worksheet Selection -->
         <main id="screen-selection" class="screen max-w-4xl mx-auto">
             <h3 id="selection-greeting" class="text-3xl font-baloo font-bold text-center mb-8">Hi! Which worksheet would you like to try today?</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
                 <div class="ws-card bg-white rounded-3xl p-8 shadow-xl border-4 border-lightBlue hover:border-gold transition-colors cursor-pointer text-center relative overflow-hidden" data-worksheet="table2">
                     <div class="text-6xl mb-4">🧮</div>
@@ -145,8 +145,15 @@
                 <!-- Card 2 -->
                 <div class="ws-card bg-white rounded-3xl p-8 shadow-xl border-4 border-lightBlue hover:border-gold transition-colors cursor-pointer text-center relative overflow-hidden" data-worksheet="class1">
                     <div class="text-6xl mb-4">📖</div>
-                    <h4 class="text-2xl font-baloo font-bold text-navy mb-2">Little Explorers — Class I English & EVS Worksheet</h4>
+                    <h4 class="text-2xl font-baloo font-bold text-navy mb-2">Little Explorers — Class I English & EVS</h4>
                     <p class="text-gray-500 font-medium mb-6">Living things, naming words, sounds, grammar & more!</p>
+                    <button class="btn btn-gold w-full text-xl py-3">Start →</button>
+                </div>
+                <!-- Card 3 -->
+                <div class="ws-card bg-white rounded-3xl p-8 shadow-xl border-4 border-lightBlue hover:border-gold transition-colors cursor-pointer text-center relative overflow-hidden" data-worksheet="nature">
+                    <div class="text-6xl mb-4">🌿</div>
+                    <h4 class="text-2xl font-baloo font-bold text-navy mb-2">Nature Explorers — Living, Plants & Animals</h4>
+                    <p class="text-gray-500 font-medium mb-6">Basic classification fun for KG learners</p>
                     <button class="btn btn-gold w-full text-xl py-3">Start →</button>
                 </div>
             </div>
@@ -403,7 +410,19 @@
             </div>
         </main>
 
-        <!-- SCREEN 5: Results -->
+        <!-- SCREEN 5: Nature Explorers Worksheet -->
+        <main id="screen-worksheet-nature" class="screen worksheet-container">
+            <!-- Content will be added here -->
+            
+            <!-- Submit Nature -->
+            <div class="text-center mt-12 mb-8 gs-reveal">
+                <button class="btn-verify btn btn-gold text-2xl py-4 px-12 w-full sm:w-auto shadow-xl border-4 border-white">
+                    ✅ Verify My Answers
+                </button>
+            </div>
+        </main>
+
+        <!-- SCREEN 6: Results -->
         <main id="screen-results" class="screen">
             <div id="results-card" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-4 border-lightBlue relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-4 bg-navy"></div>
@@ -431,7 +450,7 @@
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
                             <div class="text-5xl font-baloo font-bold text-navy"><span id="score-num">0</span></div>
-                            <div class="text-lg text-gray-500 font-bold">out of 39</div>
+                            <div class="text-lg text-gray-500 font-bold">out of <span id="score-total">39</span></div>
                         </div>
                     </div>
                     
@@ -511,6 +530,12 @@
                 exportPrefix: "KCI_ClassI_Result",
                 totalPossible: 74,
                 render: renderClass1Worksheet
+            },
+            nature: {
+                title: "Nature Explorers — Living, Plants & Animals",
+                exportPrefix: "KCI_NatureExplorers_Result",
+                totalPossible: 33,
+                render: renderNatureWorksheet
             }
         };
 
@@ -711,6 +736,104 @@
             setupPillsInteractivity('#screen-worksheet-class1 .s4-question');
         }
 
+        function renderNatureWorksheet() {
+            const container = document.getElementById('screen-worksheet-nature');
+            if (container.children.length > 2) return; // Already rendered
+
+            let html = '';
+            let sectionCount = 1;
+
+            // Helper to generate a section header
+            const secHeader = (title, subtitle) => `
+                <div class="flex items-center gap-4 mb-2">
+                    <div class="badge">${sectionCount++}</div>
+                    <h3 class="text-2xl font-baloo font-bold">${title}</h3>
+                </div>
+                ${subtitle ? `<p class="text-lg mb-6 font-medium text-navy bg-white/50 inline-block px-4 py-2 rounded-lg">${subtitle}</p>` : ''}
+            `;
+
+            // Section 1: Living or Non-Living?
+            const s1Items = [
+                {q: "🐕 Dog", a: "Living"}, {q: "🌻 Sunflower", a: "Living"}, {q: "📱 Phone", a: "Non-Living"}, {q: "🐟 Fish", a: "Living"}, {q: "⚽ Ball", a: "Non-Living"},
+                {q: "🌳 Tree", a: "Living"}, {q: "🚲 Bicycle", a: "Non-Living"}, {q: "🦋 Butterfly", a: "Living"}, {q: "🪑 Chair", a: "Non-Living"}, {q: "🐦 Bird", a: "Living"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Living or Non-Living?", "Tap the correct button.")}<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+            s1Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question nat-s1" data-q="s1-${i}" data-ans="${item.a}">
+                        <div class="text-2xl font-bold font-baloo">${i+1}. <span class="ml-2">${item.q}</span></div>
+                        <div class="flex gap-2">
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">🌱 Living</div>
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">🪨 Non-Living</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 2: Plant or Animal?
+            const s2Items = [
+                {q: "🌹 Rose", a: "Plant"}, {q: "🐘 Elephant", a: "Animal"}, {q: "🌵 Cactus", a: "Plant"}, {q: "🐒 Monkey", a: "Animal"}, {q: "🌾 Wheat", a: "Plant"},
+                {q: "🐄 Cow", a: "Animal"}, {q: "🌴 Palm Tree", a: "Plant"}, {q: "🐍 Snake", a: "Animal"}, {q: "🌿 Fern", a: "Plant"}, {q: "🐢 Turtle", a: "Animal"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Plant or Animal?", "Tap the correct button.")}<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+            s2Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 s4-question nat-s2" data-q="s2-${i}" data-ans="${item.a}">
+                        <div class="text-2xl font-bold font-baloo">${i+1}. <span class="ml-2">${item.q}</span></div>
+                        <div class="flex gap-2">
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">🌿 Plant</div>
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;">🐾 Animal</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 3: Wild or Domestic Animal?
+            const s3Items = [
+                {q: "🐕 Dog", a: "Domestic"}, {q: "🦁 Lion", a: "Wild"}, {q: "🐄 Cow", a: "Domestic"}, {q: "🐯 Tiger", a: "Wild"}, 
+                {q: "🐐 Goat", a: "Domestic"}, {q: "🐘 Elephant", a: "Wild"}, {q: "🐈 Cat", a: "Domestic"}, {q: "🦒 Giraffe", a: "Wild"}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Wild or Domestic Animal?", "Where do they live?")}<div class="space-y-4">`;
+            s3Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4 s4-question nat-s3" data-q="s3-${i}" data-ans="${item.a}">
+                        <div class="text-2xl font-bold font-baloo">${i+1}. <span class="ml-2">${item.q}</span></div>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;" data-val="Domestic">🏠 Domestic (lives with people)</div>
+                            <div class="pill s4-opt" style="padding: 0.5rem 1rem;" data-val="Wild">🌳 Wild (lives in the forest/jungle)</div>
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Section 4: Mini Test
+            const s4Items = [
+                {q: "1. 🌸 Flower is:", a: "Living", opts: ["🌱 Living", "🪨 Non-Living"]},
+                {q: "2. 🖥️ Computer is:", a: "Non-Living", opts: ["🌱 Living", "🪨 Non-Living"]},
+                {q: "3. 🌳 Tree is a:", a: "Plant", opts: ["🌿 Plant", "🐾 Animal"]},
+                {q: "4. 🐇 Rabbit is a:", a: "Animal", opts: ["🌿 Plant", "🐾 Animal"]},
+                {q: "5. 🐺 Wolf is a:", a: "Wild", opts: ["🏠 Domestic", "🌳 Wild"]}
+            ];
+            html += `<div class="section-card gs-reveal">${secHeader("Nature Mini Test", "Show what you learned!")}<div class="space-y-4">`;
+            s4Items.forEach((item, i) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4 s4-question nat-s4" data-q="s4-${i}" data-ans="${item.a}">
+                        <div class="text-xl font-bold font-baloo">${item.q}</div>
+                        <div class="flex flex-wrap gap-2 shrink-0">
+                            ${item.opts.map(opt => `<div class="pill s4-opt" style="padding: 0.5rem 1rem;" data-val="${opt.replace(/[^a-zA-Z-]/g, '').trim()}">${opt}</div>`).join('')}
+                        </div>
+                    </div>`;
+            });
+            html += `</div></div>`;
+
+            // Prepend HTML before the submit button
+            const submitBtn = container.lastElementChild;
+            container.insertAdjacentHTML('afterbegin', html);
+            
+            // Setup interactivity for newly injected pills
+            setupPillsInteractivity('#screen-worksheet-nature .s4-question');
+        }
+
         // Helper for pill interactivity
         function setupPillsInteractivity(selector) {
             document.querySelectorAll(selector).forEach(q => {
@@ -845,7 +968,7 @@
                     worksheetsConfig[wsId].render();
                 }
                 
-                const targetScreen = wsId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                const targetScreen = '#screen-worksheet-' + wsId;
                 
                 // GSAP Transition from Selection -> Worksheet
                 gsap.to('#screen-selection', {
@@ -921,7 +1044,7 @@
                 let isValid = true;
                 let firstInvalid = null;
                 
-                const activeContainer = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                const activeContainer = `#screen-worksheet-${state.currentWorksheetId}`;
                 
                 // Validate Text Inputs (ignore those that are not graded in Class1 Part B)
                 const textInputs = document.querySelectorAll(`${activeContainer} input[type="text"]`);
@@ -968,7 +1091,8 @@
                 
                 // All valid, Grade the worksheet and transition
                 if (state.currentWorksheetId === 'table2') gradeWorksheetTable2();
-                else gradeWorksheetClass1();
+                else if (state.currentWorksheetId === 'class1') gradeWorksheetClass1();
+                else if (state.currentWorksheetId === 'nature') gradeWorksheetNature();
                 
                 showResults();
             });
@@ -1084,6 +1208,16 @@
             gradePills('.c1-s8', 'Section 8: Mini Test');
         }
 
+        function gradeWorksheetNature() {
+            state.results = [];
+            state.totalCorrect = 0;
+
+            gradePills('.nat-s1', 'Section 1: Living or Non-Living?');
+            gradePills('.nat-s2', 'Section 2: Plant or Animal?');
+            gradePills('.nat-s3', 'Section 3: Wild or Domestic Animal?');
+            gradePills('.nat-s4', 'Section 4: Nature Mini Test');
+        }
+
         // ----------------------------------------------------
         // SCREEN 3: Results Display & Animations
         // ----------------------------------------------------
@@ -1097,6 +1231,9 @@
             
             const d = new Date(state.student.date);
             document.getElementById('res-date').innerText = d.toLocaleDateString();
+            
+            // Update score total dynamically
+            document.getElementById('score-total').innerText = state.totalPossible;
             
             const pct = Math.round((state.totalCorrect / state.totalPossible) * 100);
             
@@ -1137,15 +1274,15 @@
             
             // Set Tier Message
             let msg = "";
-            if(pct >= 90) msg = "🌟 Outstanding! You're a Table of 2 Superstar!";
+            if(pct >= 90) msg = "🌟 Outstanding! You're a Superstar!";
             else if(pct >= 70) msg = "👍 Great job! Just a little more practice!";
             else if(pct >= 50) msg = "💪 Good effort! Let's practice a bit more together.";
             else msg = "📚 Keep practicing — you'll get there!";
             
             document.getElementById('res-message').innerText = msg;
             
-            // Transition Active Worksheet -> S5 (Results)
-            const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+            // Transition Active Worksheet -> Results
+            const targetScreen = `#screen-worksheet-${state.currentWorksheetId}`;
             
             gsap.to(targetScreen, {
                 opacity: 0, y: -20, duration: 0.4, onComplete: () => {
@@ -1154,7 +1291,7 @@
                     window.scrollTo(0, 0);
                     
                     // Reveal results card
-                    gsap.to('#screen-3', { opacity: 1, duration: 0.1 });
+                    gsap.to('#screen-results', { opacity: 1, duration: 0.1 });
                     gsap.from('#results-card', { y: 50, opacity: 0, duration: 0.6, ease: "back.out(1.2)" });
                     
                     // Animate Score Ring
@@ -1247,7 +1384,7 @@
                 opacity: 0, duration: 0.3, onComplete: () => {
                     document.getElementById('screen-results').classList.remove('active');
                     
-                    const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                    const targetScreen = `#screen-worksheet-${state.currentWorksheetId}`;
                     
                     // Reset all inputs & state
                     document.querySelectorAll(`${targetScreen} input`).forEach(inp => inp.value = '');
@@ -1256,7 +1393,7 @@
                     document.querySelectorAll(`${targetScreen} .pill-error`).forEach(el => el.classList.remove('pill-error'));
                     if (state.currentWorksheetId === 'table2') document.getElementById('s6-grid').classList.remove('grid-error');
                     
-                    // Go to Selection (or back to S1) - specification says "Try Again (same worksheet)" so we go back to the worksheet
+                    // Go back to the same worksheet
                     document.querySelector(targetScreen).classList.add('active');
                     gsap.to(targetScreen, { opacity: 1, y: 0, duration: 0.4 });
                     window.scrollTo(0, 0);
@@ -1275,7 +1412,7 @@
                 opacity: 0, duration: 0.3, onComplete: () => {
                     document.getElementById('screen-results').classList.remove('active');
                     
-                    const targetScreen = state.currentWorksheetId === 'table2' ? '#screen-worksheet-table2' : '#screen-worksheet-class1';
+                    const targetScreen = `#screen-worksheet-${state.currentWorksheetId}`;
                     
                     // Reset all inputs & state
                     document.querySelectorAll(`${targetScreen} input`).forEach(inp => inp.value = '');
